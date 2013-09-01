@@ -2,14 +2,12 @@ STM32F0-Discovery Application Template
 ======================================
 
 Sourced from https://github.com/szczys/stm32f0-discovery-basic-template/ which
-is based on is based on [an example template for the F4 Discovery
-board](http://jeremyherbert.net/get/stm32f4_getting_started) put together by
+is based on is based on [an example template for the F4 Discovery board](http://jeremyherbert.net/get/stm32f4_getting_started) put together by
 Jeremy Herbert.
 
 This Eclipse project is for use when compiling programs for STM32F05xx ARM
-microcontrollers using arm-none-eabi-gcc. I'm using the [Code Sourcery
-G++:Lite Edition](http://www.mentor.com/embedded-software/sourcery-tools
-/sourcery-codebench/editions/lite-edition/) toolchain. I configured Eclipse-
+microcontrollers using arm-none-eabi-gcc. I'm using the
+[Code Sourcery G++:Lite Edition](http://www.mentor.com/embedded-software/sourcery-tools /sourcery-codebench/editions/lite-edition/) toolchain. I configured Eclipse-
 CDT with the GNU ARM Eclipse plugin based on instructions from
 [ODev](http://www.stf12.org/developers/ODeV.html#widget7)--as a result, the
 Makefile gets generated automatically by Eclipse.
@@ -38,11 +36,20 @@ Subfolders:
 Building the Project
 --------------------
 
-Eclipse makes this very simple if the GNU ARM plugin is installed. The toolchain is discovered automatically (as long as it is available on the PATH). You should import this as an existing project using File->Import->General->Existing Project into Workspace.
+Eclipse makes this very simple if the GNU ARM plugin is installed. The
+toolchain is discovered automatically (as long as it is available on the
+PATH). You should import this as an existing project using
+File->Import->General->Existing Project into Workspace.
 
-Build creates a folder called 'Debug' containing makefile and the build artifacts. Thereafter it is possible to run **make all** from the command line directly from within the Debug folder. Note: if any configuration opitons or build dependencies are changed, the makefile under **Debug** can be regenerated from the Eclipse IDE. 
+Build creates a folder called 'Debug' containing makefile and the build
+artifacts. Thereafter it is possible to run **make all** from the command line
+directly from within the Debug folder. Note: if any configuration opitons or
+build dependencies are changed, the makefile under **Debug** can be
+regenerated from the Eclipse IDE.
 
-Building the Debug configuration produces a **stm32f0-discovery.hex** binary artifact under Debug. This is the firmware which needs to be loaded on the target.
+Building the Debug configuration produces a **stm32f0-discovery.hex** binary
+artifact under Debug. This is the firmware which needs to be loaded on the
+target.
 
 Loading the image on the board
 ------------------------------
@@ -56,7 +63,9 @@ OpenOCD must be installed with stlink enabled. Clone [the git repository](http:/
     ./configure --prefix=/usr --enable-maintainer-mode --enable-stlink
     make 
 
-If there is an error finding the .cfg file, please double-check the OPENOCD_BOARD_DIR constant at the top of the Makefile (in this template directory, not in OpenOCD).
+If there is an error finding the .cfg file, please double-check the
+OPENOCD_BOARD_DIR constant at the top of the Makefile (in this template
+directory, not in OpenOCD).
 
 In my case, OpenOCD's sources (and binaries) resided under **<workspacedir>/openocd-code/**.
 
@@ -64,7 +73,8 @@ UDEV Rule for the Discovery Board
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If you are not able to communicate with the STM32F0-Discovery board without
-root privileges you should follow the step from [the stlink repo readme file](https://github.com/texane/stlink#readme) for adding a udev rule for this hardware.
+root privileges you should follow the step from [the stlink repo readme file](https://github.com/texane/stlink#readme) for adding a udev rule for this
+hardware.
 
 Finally
 ~~~~~~~
