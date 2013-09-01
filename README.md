@@ -17,7 +17,6 @@ Subfolders:
 
 1. **STM32F0xx_StdPeriph_Lib_V1.1.0/**
    * This is the standard peripheral driver library produced by STM. It requires adding the preprocessor macro USE_STDPERIPH_DRIVER to settings for building C and C++ sources.
-
    * The file '**stm32f0xx_conf.h**' is used to configure the peripheral library. This has been placed under Sources. The file can be taken from one of the several examples available with the peripheral library.
 
 2. startup/
