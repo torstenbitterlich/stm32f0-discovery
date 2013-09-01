@@ -53,8 +53,7 @@ target.
 Loading the image on the board
 ------------------------------
 
-Build OpenOCD
-~~~~~~~~~~~~~
+### Build OpenOCD
 
 OpenOCD must be installed with stlink enabled. Clone [the git repository](http://openocd.git.sourceforge.net/git/gitweb.cgi?p=openocd/openocd;a=summary) and use these commands to compile/install it:
 
@@ -68,14 +67,12 @@ directory, not in OpenOCD).
 
 In my case, OpenOCD's sources (and binaries) resided under **<workspacedir>/openocd-code/**.
 
-UDEV Rule for the Discovery Board
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### UDEV Rule for the Discovery Board
 
 If you are not able to communicate with the STM32F0-Discovery board without
 root privileges you should follow the step from [the stlink repo readme file](https://github.com/texane/stlink#readme) for adding a udev rule for this
 hardware.
 
-Finally
-~~~~~~~
+### Finally
 
     $ <path_to_openocd-code>/src/openocd -s <path_to_openocd-code>/tcl/ -f interface/stlink-v2.cfg -f <path_to_openocd-code>/tcl/target/stm32f0x_stlink.cfg -f <path_to_project_folder>/OpenOCD/stm32_program.cfg
