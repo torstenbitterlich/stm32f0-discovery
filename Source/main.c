@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * @file    main.c 
+  * @file    main.c
   * @author  MCD Application Team
   * @version V1.0.0
   * @date    23-March-2012
@@ -16,14 +16,17 @@
   *
   *        http://www.st.com/software_license_agreement_liberty_v2
   *
-  * Unless required by applicable law or agreed to in writing, software 
-  * distributed under the License is distributed on an "AS IS" BASIS, 
+  * Unless required by applicable law or agreed to in writing, software
+  * distributed under the License is distributed on an "AS IS" BASIS,
   * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   * See the License for the specific language governing permissions and
   * limitations under the License.
   *
   ******************************************************************************
-  */ 
+  */
+
+#include "FreeRTOS.h"
+#include "task.h"
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -37,7 +40,78 @@
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
 static __IO uint32_t TimingDelay;
-uint8_t BlinkSpeed = 0;
+
+void
+prvSetupHardware(void)
+{
+    /* Configure LED3 and LED4 on STM32F0-Discovery */
+    STM_EVAL_LEDInit(LED3);
+    STM_EVAL_LEDInit(LED4);
+
+    /* Initialize User_Button on STM32F0-Discovery */
+    STM_EVAL_PBInit(BUTTON_USER, BUTTON_MODE_GPIO);
+}
+
+void
+blinkyTask(void *dummy)
+{
+    (void)dummy;
+
+    /* Initiate Blink Speed variable */
+    uint8_t BlinkSpeed = 1;
+
+    while(1) {
+        /* Check if the user button is pressed */
+        if(STM_EVAL_PBGetState(BUTTON_USER)== SET) {
+            /* BlinkSpeed: 1 -> 2 -> 0, then re-cycle */
+            /* Turn on LD4 Blue LED during 1s each time User button is pressed */
+            STM_EVAL_LEDOn(LED4);
+
+            /* wait for 1s */
+            Delay(1000);
+
+            /* Turn off LD4 Blue LED after 1s each time User button is pressed */
+            STM_EVAL_LEDOff(LED4);
+
+            /* Increment the blink speed counter */
+            BlinkSpeed++;
+
+            /* Default value for blink speed counter */
+            if (BlinkSpeed == 3) {
+                BlinkSpeed = 0;
+            }
+        }
+
+        /* Test on blink speed */
+        if(BlinkSpeed == 2) {
+            /* LED3 toggles each 100 ms */
+            STM_EVAL_LEDToggle(LED3);
+
+            /* maintain LED3 status for 100ms */
+            Delay(100);
+        } else if(BlinkSpeed == 1) {
+            /* LED3 toggles each 200 ms */
+            STM_EVAL_LEDToggle(LED3);
+
+            /* maintain LED3 status for 200ms */
+            Delay(200);
+        } else {
+            /* LED3 Off */
+            STM_EVAL_LEDOff(LED3);
+        }
+    }
+}
+
+void
+vTaskInit(void)
+{
+    xTaskCreate(blinkyTask,
+                (const signed char *)"blinkyTask",
+                configMINIMAL_STACK_SIZE,
+                NULL,                 /* pvParameters */
+                tskIDLE_PRIORITY + 1, /* uxPriority */
+                NULL                  /* pvCreatedTask */);
+}
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -47,72 +121,21 @@ uint8_t BlinkSpeed = 0;
   * @param  None
   * @retval None
   */
-int main(void)
+int
+main(void)
 {
-  RCC_ClocksTypeDef RCC_Clocks;
-  
-  /* Configure LED3 and LED4 on STM32F0-Discovery */
-  STM_EVAL_LEDInit(LED3);
-  STM_EVAL_LEDInit(LED4);
-  
-  /* Initialize User_Button on STM32F0-Discovery */
-  STM_EVAL_PBInit(BUTTON_USER, BUTTON_MODE_GPIO);
-  
-  /* SysTick end of count event each 1ms */
-  RCC_GetClocksFreq(&RCC_Clocks);
-  SysTick_Config(RCC_Clocks.HCLK_Frequency / 1000);
-   
-  /* Initiate Blink Speed variable */ 
-  BlinkSpeed = 1;
-  
-  while(1)
-  {  
-    /* Check if the user button is pressed */
-    if(STM_EVAL_PBGetState(BUTTON_USER)== SET)
-    {
-      /* BlinkSpeed: 1 -> 2 -> 0, then re-cycle */
-      /* Turn on LD4 Blue LED during 1s each time User button is pressed */
-      STM_EVAL_LEDOn(LED4);
-      
-      /* wait for 1s */
-      Delay(1000);
-      
-      /* Turn off LD4 Blue LED after 1s each time User button is pressed */
-      STM_EVAL_LEDOff(LED4);
-      
-      /* Increment the blink speed counter */
-      BlinkSpeed++;
-      
-      /* Default value for blink speed counter */
-      if(BlinkSpeed == 3)
-      {  
-        BlinkSpeed = 0;
-      }
-    }
-    
-    /* Test on blink speed */
-    if(BlinkSpeed == 2)
-    {
-      /* LED3 toggles each 100 ms */
-      STM_EVAL_LEDToggle(LED3);
-      
-      /* maintain LED3 status for 100ms */
-      Delay(100);
-    }
-    else if(BlinkSpeed == 1)
-    {
-      /* LED3 toggles each 200 ms */
-      STM_EVAL_LEDToggle(LED3);
-      
-      /* maintain LED3 status for 200ms */
-      Delay(200);
-    }
-    else
-    {  
-      /* LED3 Off */
-      STM_EVAL_LEDOff(LED3);
-    }
-  }
+    /*!< At this stage the microcontroller clock setting is already configured,
+     * this is done through SystemInit() function which is called from startup
+     * file (startup_stm32f2xx_xx.s) before to branch to application main.
+     * To reconfigure the default setting of SystemInit() function, refer to
+     * system_stm32f2xx.c file */
+    prvSetupHardware();
+
+    vTaskInit();
+
+    vTaskStartScheduler();
+
+    return (0);
 }
 
 /**
@@ -135,9 +158,15 @@ void Delay(__IO uint32_t nTime)
 void TimingDelay_Decrement(void)
 {
   if (TimingDelay != 0x00)
-  { 
+  {
     TimingDelay--;
   }
+}
+
+void
+vApplicationTickHook(void)
+{
+    TimingDelay_Decrement();
 }
 
 #ifdef  USE_FULL_ASSERT
@@ -150,7 +179,7 @@ void TimingDelay_Decrement(void)
   * @retval None
   */
 void assert_failed(uint8_t* file, uint32_t line)
-{ 
+{
   /* User can add his own implementation to report the file name and line number,
      ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
