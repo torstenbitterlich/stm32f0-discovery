@@ -12,26 +12,47 @@ Eclipse-CDT needs to be configured with the GNU ARM Eclipse plugin; helpful
 instructions may be found from
 [ODev](http://www.stf12.org/developers/ODeV.html#widget7).
 
-Subfolders:
------------
+Code Organization
+-----------------
 
-1. **STM32F0xx_StdPeriph_Lib_V1.1.0/**
-   * This is the standard peripheral driver library produced by STM. It requires adding the preprocessor macro USE_STDPERIPH_DRIVER to settings for building C and C++ sources.
-   * The file '**stm32f0xx_conf.h**' is used to configure the peripheral library. This has been placed under Sources. The file can be taken from one of the several examples available with the peripheral library.
+* All source files for this particular project (including main.c) are contained within the subfolder **Source/**.
 
-2. startup/
-   * Folder contains device specific files:
+* The **startup/** folder contains device specific files:
    * **startup_stm32f0xx.S** is the startup file taken from the STM32F0-Discovery firmware package.
-   * Linker Script (**stm32f0.ld**)
+   * Linker Script (**stm32f0.ld**) is a copy (with slight modifications) from one of the templates within the peripheral library.
 
-4. Source/
-   * All source files for this particular project (including main.c).
-   * **system_stm32f0xx.c** can be generated using an XLS file developed by STM. This sets up the system clock values for the project. The file included in this repository is taken from the STM32F0-Discovery firmware package. It is found in the following directory:
-      * Libraries/CMSIS/ST/STM32F0xx/Source/Templates/
-   * FreeRTOSv7.5.2/ was downloaded directly from source. Enable the ARM_CM0 port.
+* **Source/system_stm32f0xx.c** is the place where system clocks are initialized. It comes out of an excel sheet developed by STM. The file included in this repository is taken from the STM32F0-Discovery firmware package.
 
-5. OpenOCD/
-   * This contains a procedure file used to write the image to the board via OpenOCD
+* **OpenOCD/** contains a script file used to write the HEX image to the board via [OpenOCD](http://openocd.sourceforge.net/).
+
+Externals
+---------
+
+STM32F0xx_StdPeriph_Lib_V1.1.0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This is the standard peripheral driver library produced by STM--it can be
+located as one of the application notes attached to the STM's micro-controller
+specific support page. This project assumes that the folder containing the
+sources for the peripheral library will be unpacked at the top level--i.e. as
+a sibling of **Source/**.  It further requires adding the preprocessor macro
+**USE_STDPERIPH_DRIVER** to Eclipse settings for building C and C++ sources.
+The file '**stm32f0xx_conf.h**' is used to configure the peripheral library.
+This has been placed under Sources. The file can be taken from one of the
+several examples available with the peripheral library.
+
+FreeRTOS
+~~~~~~~~
+
+Downloaded directly from source. The files for the ARM_CM0 port have been
+enabled in Eclipse settings; together with one of the memory allocators. You
+might want to take a look at FreeRTOSConfig.h.
+
+OpenOCD
+~~~~~~~
+
+OpenOCD needs to be compiled for STLINK support. Sources may be obtained by
+cloning [the git repository](http://openocd.git.sourceforge.net/git/gitweb.cgi?p=openocd/openocd;a=summary). You can place this cloned folder anywhere.
 
 Building the Project
 --------------------
