@@ -1,16 +1,16 @@
-STM32F0-Discovery Application Template
-======================================
+STM32F0-Discovery Demo Application using FreeRTOSv7.5.2
+=======================================================
 
-Sourced from https://github.com/szczys/stm32f0-discovery-basic-template/ which
-is based on is based on [an example template for the F4 Discovery board](http://jeremyherbert.net/get/stm32f4_getting_started) put together by
-Jeremy Herbert.
+This Eclipse project adds FreeRTOS to the demo application which comes
+preloaded on the STM32F0-Discovery boards. It could serve as a template when
+compiling programs for STM32F05xx ARM micro-controllers using arm-none-eabi-gcc.
 
-This Eclipse project is for use when compiling programs for STM32F05xx ARM
-microcontrollers using arm-none-eabi-gcc. I'm using the
-[Code Sourcery G++:Lite Edition](http://www.mentor.com/embedded-software/sourcery-tools /sourcery-codebench/editions/lite-edition/) toolchain. I configured Eclipse-
-CDT with the GNU ARM Eclipse plugin based on instructions from
-[ODev](http://www.stf12.org/developers/ODeV.html#widget7)--as a result, the
-Makefile gets generated automatically by Eclipse.
+Toolchain used:
+[Code Sourcery G++:Lite Edition](http://www.mentor.com/embedded-software/sourcery-tools /sourcery-codebench/editions/lite-edition/).
+
+Eclipse-CDT needs to be configured with the GNU ARM Eclipse plugin; helpful
+instructions may be found from
+[ODev](http://www.stf12.org/developers/ODeV.html#widget7).
 
 Subfolders:
 -----------
@@ -28,6 +28,7 @@ Subfolders:
    * All source files for this particular project (including main.c).
    * **system_stm32f0xx.c** can be generated using an XLS file developed by STM. This sets up the system clock values for the project. The file included in this repository is taken from the STM32F0-Discovery firmware package. It is found in the following directory:
       * Libraries/CMSIS/ST/STM32F0xx/Source/Templates/
+   * FreeRTOSv7.5.2/ was downloaded directly from source. Enable the ARM_CM0 port.
 
 5. OpenOCD/
    * This contains a procedure file used to write the image to the board via OpenOCD
@@ -42,7 +43,7 @@ File->Import->General->Existing Project into Workspace.
 
 Build creates a folder called 'Debug' containing makefile and the build
 artifacts. Thereafter it is possible to run **make all** from the command line
-directly from within the Debug folder. Note: if any configuration opitons or
+directly from within the Debug folder. Note: if any configuration options or
 build dependencies are changed, the makefile under **Debug** can be
 regenerated from the Eclipse IDE.
 
@@ -59,7 +60,7 @@ OpenOCD must be installed with stlink enabled. Clone [the git repository](http:/
 
     ./bootstrap
     ./configure --prefix=/usr --enable-maintainer-mode --enable-stlink
-    make 
+    make
 
 If there is an error finding the .cfg file, please double-check the
 OPENOCD_BOARD_DIR constant at the top of the Makefile (in this template
@@ -76,3 +77,10 @@ hardware.
 ### Finally
 
     $ <path_to_openocd-code>/src/openocd -s <path_to_openocd-code>/tcl/ -f interface/stlink-v2.cfg -f <path_to_openocd-code>/tcl/target/stm32f0x_stlink.cfg -f <path_to_project_folder>/OpenOCD/stm32_program.cfg
+
+
+Acknowledgement
+---------------
+
+Sourced partly from https://github.com/szczys/stm32f0-discovery-basic-template/ which
+is based on is based on [an example template for the F4 Discovery board](http://jeremyherbert.net/get/stm32f4_getting_started) put together by Jeremy Herbert.
