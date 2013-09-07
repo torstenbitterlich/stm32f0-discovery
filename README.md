@@ -66,8 +66,8 @@ build dependencies are changed, the makefile under **Debug** can be
 regenerated from the Eclipse IDE.
 
 Building the Debug configuration produces a **stm32f0-discovery.hex** binary
-artifact under Debug. This is the firmware which needs to be loaded on the
-target.
+artifact under **Debug/**. This is the firmware which needs to be loaded on
+the target.
 
 Loading the image on the board
 ------------------------------
