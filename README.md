@@ -27,8 +27,7 @@ Code Organization
 Externals
 ---------
 
-STM32F0xx_StdPeriph_Lib_V1.1.0
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+### STM32F0xx_StdPeriph_Lib_V1.1.0
 
 This is the standard peripheral driver library produced by STM--it can be
 located as one of the application notes attached to the STM's micro-controller
@@ -40,16 +39,14 @@ The file '**stm32f0xx_conf.h**' is used to configure the peripheral library.
 This has been placed under Sources. The file can be taken from one of the
 several examples available with the peripheral library.
 
-FreeRTOS
-~~~~~~~~
+### FreeRTOS
 
 Downloaded directly from [source](www.freertos.org) and placed at
 **Source/FreeRTOS/**. The files for the ARM_CM0 port have been enabled in
 Eclipse settings; together with one of the memory allocators. You might want
 to take a look at FreeRTOSConfig.h.
 
-OpenOCD
-~~~~~~~
+### OpenOCD
 
 OpenOCD needs to be compiled for STLINK support. Sources may be obtained by
 cloning [the git repository](http://openocd.git.sourceforge.net/git/gitweb.cgi?p=openocd/openocd;a=summary). You can place this cloned folder anywhere.
