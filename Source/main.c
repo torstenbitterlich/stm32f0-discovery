@@ -60,11 +60,11 @@ blinkyTask(void *dummy)
     /* Initiate Blink Speed variable */
     uint8_t BlinkSpeed = 1;
 
-    while(1) {
+    while (1) {
         /* Check if the user button is pressed */
-        if(STM_EVAL_PBGetState(BUTTON_USER)== SET) {
+        if (STM_EVAL_PBGetState(BUTTON_USER)== SET) {
             /* BlinkSpeed: 1 -> 2 -> 0, then re-cycle */
-            /* Turn on LD4 Blue LED during 1s each time User button is pressed */
+            /* Turn on LD4 Blue LED during 1s each time User button is pressed*/
             STM_EVAL_LEDOn(LED4);
 
             /* wait for 1s */
@@ -83,13 +83,13 @@ blinkyTask(void *dummy)
         }
 
         /* Test on blink speed */
-        if(BlinkSpeed == 2) {
+        if (BlinkSpeed == 2) {
             /* LED3 toggles each 100 ms */
             STM_EVAL_LEDToggle(LED3);
 
             /* maintain LED3 status for 100ms */
             Delay(100);
-        } else if(BlinkSpeed == 1) {
+        } else if (BlinkSpeed == 1) {
             /* LED3 toggles each 200 ms */
             STM_EVAL_LEDToggle(LED3);
 
@@ -143,11 +143,13 @@ main(void)
   * @param  nTime: specifies the delay time length, in 1 ms.
   * @retval None
   */
-void Delay(__IO uint32_t nTime)
+void
+Delay(__IO uint32_t nTime)
 {
-  TimingDelay = nTime;
+    TimingDelay = nTime;
 
-  while(TimingDelay != 0);
+    while (TimingDelay != 0) {
+    }
 }
 
 /**
@@ -155,12 +157,12 @@ void Delay(__IO uint32_t nTime)
   * @param  None
   * @retval None
   */
-void TimingDelay_Decrement(void)
+void
+TimingDelay_Decrement(void)
 {
-  if (TimingDelay != 0x00)
-  {
-    TimingDelay--;
-  }
+    if (TimingDelay != 0x00) {
+        TimingDelay--;
+    }
 }
 
 void
@@ -178,19 +180,21 @@ vApplicationTickHook(void)
   * @param  line: assert_param error line source number
   * @retval None
   */
-void assert_failed(uint8_t* file, uint32_t line)
+void
+assert_failed(uint8_t *file, uint32_t line)
 {
-  /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+    /* User can add his own implementation to report the file name and line number,
+       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
 
-  (void)file;
-  (void)line;
+    (void)file;
+    (void)line;
 
-  /* Infinite loop */
-  while (1)
-  {}
+    /* Infinite loop */
+    while (1) {
+    }
 }
-#endif
+
+#endif /* ifdef  USE_FULL_ASSERT */
 
 /**
   * @}
