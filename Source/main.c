@@ -68,7 +68,7 @@ blinkyTask(void *dummy)
             STM_EVAL_LEDOn(LED4);
 
             /* wait for 1s */
-            Delay(1000);
+            vTaskDelay(1000);
 
             /* Turn off LD4 Blue LED after 1s each time User button is pressed */
             STM_EVAL_LEDOff(LED4);
@@ -88,13 +88,13 @@ blinkyTask(void *dummy)
             STM_EVAL_LEDToggle(LED3);
 
             /* maintain LED3 status for 100ms */
-            Delay(100);
+            vTaskDelay(100);
         } else if (BlinkSpeed == 1) {
             /* LED3 toggles each 200 ms */
             STM_EVAL_LEDToggle(LED3);
 
             /* maintain LED3 status for 200ms */
-            Delay(200);
+            vTaskDelay(200);
         } else {
             /* LED3 Off */
             STM_EVAL_LEDOff(LED3);
@@ -136,39 +136,6 @@ main(void)
     vTaskStartScheduler();
 
     return (0);
-}
-
-/**
-  * @brief  Inserts a delay time.
-  * @param  nTime: specifies the delay time length, in 1 ms.
-  * @retval None
-  */
-void
-Delay(__IO uint32_t nTime)
-{
-    TimingDelay = nTime;
-
-    while (TimingDelay != 0) {
-    }
-}
-
-/**
-  * @brief  Decrements the TimingDelay variable.
-  * @param  None
-  * @retval None
-  */
-void
-TimingDelay_Decrement(void)
-{
-    if (TimingDelay != 0x00) {
-        TimingDelay--;
-    }
-}
-
-void
-vApplicationTickHook(void)
-{
-    TimingDelay_Decrement();
 }
 
 #ifdef  USE_FULL_ASSERT
