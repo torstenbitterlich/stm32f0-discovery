@@ -16,12 +16,11 @@ Code Organization
 -----------------
 
 * All source files for this particular project (including main.c) are contained within the subfolder **Source/**.
+  * **Source/system_stm32f0xx.c** is the place where system clocks are initialized. It comes out of an excel sheet developed by STM. The file included in this repository is taken from the STM32F0-Discovery firmware package.
 
 * The **startup/** folder contains device specific files:
    * **startup_stm32f0xx.S** is the startup file taken from the STM32F0-Discovery firmware package.
    * Linker Script (**stm32f0.ld**) is a copy (with slight modifications) from one of the templates within the peripheral library.
-
-* **Source/system_stm32f0xx.c** is the place where system clocks are initialized. It comes out of an excel sheet developed by STM. The file included in this repository is taken from the STM32F0-Discovery firmware package.
 
 * **OpenOCD/** contains a script file used to write the HEX image to the board via [OpenOCD](http://openocd.sourceforge.net/).
 
@@ -44,9 +43,10 @@ several examples available with the peripheral library.
 FreeRTOS
 ~~~~~~~~
 
-Downloaded directly from source. The files for the ARM_CM0 port have been
-enabled in Eclipse settings; together with one of the memory allocators. You
-might want to take a look at FreeRTOSConfig.h.
+Downloaded directly from [source](www.freertos.org) and placed at
+**Source/FreeRTOS/**. The files for the ARM_CM0 port have been enabled in
+Eclipse settings; together with one of the memory allocators. You might want
+to take a look at FreeRTOSConfig.h.
 
 OpenOCD
 ~~~~~~~
