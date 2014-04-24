@@ -1,2 +1,4 @@
 /Debug
 *.sublime*
+Source/Library/*.o
+Source/Library/*.a
